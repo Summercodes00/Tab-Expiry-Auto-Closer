@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <style>
+        :root {
+            --bg: #090d16;
+            --card: #131c31;
+            --card-border: #1e293b;
+            --accent: #6366f1;
+            --accent-hover: #4f46e5;
+            --danger: #f43f5e;
+            --danger-hover: #e11d48;
+            --text: #f1f5f9;
+            --muted: #64748b;
+            --success: #10b981;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            width: 260px;
+            margin: 0;
+            padding: 16px;
+            background-color: var(--bg);
+            color: var(--text);
+            box-sizing: border-box;
+        }
+
+        .header {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 16px;
+            border-bottom: 1px solid var(--card-border);
+            padding-bottom: 10px;
+        }
+
+        .header svg {
+            width: 22px;
+            height: 22px;
+            fill: var(--accent);
+        }
+
+        .header h2 {
+            font-size: 14px;
+            font-weight: 600;
+            margin: 0;
+            letter-spacing: -0.2px;
+        }
+
+        .section-title {
+            font-size: 10px;
+            text-transform: uppercase;
+            letter-spacing: 0.8px;
+            color: var(--muted);
+            margin-bottom: 8px;
+            font-weight: 700;
+        }
+
+        .preset-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 6px;
+            margin-bottom: 14px;
+        }
+
+        .preset-btn {
+            background-color: var(--card);
+            border: 1px solid var(--card-border);
+            color: var(--text);
+            padding: 9px 4px;
+            border-radius: 8px;
+            font-size: 12px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.15s ease;
+        }
+
+        .preset-btn:hover {
+            border-color: var(--accent);
+            background-color: #1a2642;
+            transform: translateY(-1px);
+        }
+
+        .custom-input-group {
+            display: flex;
+            gap: 6px;
+            margin-bottom: 12px;
+        }
+
+        .custom-input-group input {
+            flex: 1;
+            background-color: var(--card);
+            border: 1px solid var(--card-border);
+            border-radius: 8px;
+            padding: 8px 10px;
+            color: var(--text);
+            font-size: 13px;
+            outline: none;
+            transition: border-color 0.15s;
+        }
+
+        .custom-input-group input:focus {
+            border-color: var(--accent);
+        }
+
+        .btn-primary {
+            background-color: var(--accent);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            padding: 8px 14px;
+            font-size: 12px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background 0.15s;
+        }
+
+        .btn-primary:hover {
+            background-color: var(--accent-hover);
+        }
+
+        .btn-danger {
+            background-color: var(--danger);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            padding: 9px 12px;
+            font-size: 12px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background 0.15s;
+            width: 100%;
+            margin-top: 8px;
+        }
+
+        .btn-danger:hover {
+            background-color: var(--danger-hover);
+        }
+
+        .timer-card {
+            background-color: var(--card);
+            border: 1px solid var(--card-border);
+            border-left: 3px solid var(--accent);
+            border-radius: 8px;
+            padding: 12px;
+            margin-top: 4px;
+            display: none;
+        }
+
+        .timer-info {
+            font-size: 11px;
+            color: var(--muted);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 2px;
+        }
+
+        .timer-time {
+            font-size: 20px;
+            font-weight: 700;
+            color: var(--text);
+            font-family: monospace;
+            letter-spacing: 0.5px;
+        }
+
+        .footer-status {
+            font-size: 11px;
+            color: var(--success);
+            text-align: center;
+            margin-top: 10px;
+            min-height: 14px;
+            font-weight: 500;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="header">
+        <svg viewBox="0 0 24 24">
+            <path
+                d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8zm.5-13H11v6l5.2 3.2.8-1.3-4.5-2.7V7z" />
+        </svg>
+        <h2>Tab Expiry Auto-Closer</h2>
+    </div>
+
+    <div id="activeCard" class="timer-card">
+        <div class="timer-info">
+            <span>TIME REMAINING</span>
+        </div>
+        <div id="countdownTimer" class="timer-time">00:00</div>
+        <button id="cancelBtn" class="btn-danger">Cancel Auto-Close</button>
+    </div>
+
+    <div id="setSection">
+        <div class="section-title">Quick Presets</div>
+        <div class="preset-grid">
+            <button class="preset-btn" data-minutes="1">1m</button>
+            <button class="preset-btn" data-minutes="5">5m</button>
+            <button class="preset-btn" data-minutes="15">15m</button>
+            <button class="preset-btn" data-minutes="30">30m</button>
+            <button class="preset-btn" data-minutes="60">1h</button>
+            <button class="preset-btn" data-minutes="120">2h</button>
+        </div>
+
+        <div class="section-title">Custom Duration</div>
+        <div class="custom-input-group">
+            <input type="number" id="customMinutes" min="1" max="1440" placeholder="Minutes...">
+            <button id="setCustomBtn" class="btn-primary">Set</button>
+        </div>
+    </div>
+
+    <div id="status" class="footer-status"></div>
+
+    <script src="popup.js"></script>
+</body>
+
+</html>

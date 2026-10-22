@@ -1,0 +1,17 @@
+{
+  "manifest_version": 3,
+  "name": "Tab Expiry Auto-Closer",
+  "version": "2.1",
+  "description": "Professional tab timer with live countdown to automatically close inactive tabs.",
+  "permissions": ["tabs", "alarms", "storage"],
+  "action": {
+    "default_popup": "popup.html",
+    "default_icon": "icon.png"
+  },
+  "icons": {
+    "128": "icon.png"
+  },
+  "background": {
+    "service_worker": "background.js"
+  }
+}
